@@ -300,14 +300,15 @@ int CudaRasterizer::Rasterizer::forward(
 	int bit = getHigherMsb(tile_grid.x * tile_grid.y);
 
 	// Sort complete list of (duplicated) Gaussian indices by keys
-	CHECK_CUDA(cub::DeviceRadixSort::SortPairs(
-		binningState.list_sorting_space,
-		binningState.sorting_size,
-		binningState.point_list_keys_unsorted, binningState.point_list_keys,
-		binningState.point_list_unsorted, binningState.point_list,
-		num_rendered, 0, 32 + bit), debug)
+    CHECK_CUDA(cub::DeviceRadixSort::SortPairs(
+        binningState.list_sorting_space,
+        binningState.sorting_size,
+        binningState.point_list_keys_unsorted, binningState.point_list_keys,
+        binningState.point_list_unsorted, binningState.point_list,
+        num_rendered, 0, 32 + bit), debug);
 
-	CHECK_CUDA(cudaMemset(imgState.ranges, 0, tile_grid.x * tile_grid.y * sizeof(uint2)), debug);
+    CHECK_CUDA(cudaMemset(imgState.ranges, 0, tile_grid.x * tile_grid.y * sizeof(uint2)), debug);
+
 
 	// Identify start and end of per-tile workloads in sorted list
 	if (num_rendered > 0)
@@ -432,3 +433,4 @@ void CudaRasterizer::Rasterizer::backward(
 		(glm::vec3*)dL_dscale,
 		(glm::vec4*)dL_drot), debug)
 }
+

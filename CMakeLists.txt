@@ -12,6 +12,7 @@
 cmake_minimum_required(VERSION 3.20)
 
 project(DiffRast LANGUAGES CUDA CXX)
+find_package(Torch REQUIRED)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -31,9 +32,12 @@ add_library(CudaRasterizer SHARED
 )
 
 set_target_properties(CudaRasterizer PROPERTIES 
-    CUDA_ARCHITECTURES "75"
+    CUDA_ARCHITECTURES "70;75;86"
     POSITION_INDEPENDENT_CODE ON
 )
 
+target_link_libraries     (CudaRasterizer PRIVATE ${TORCH_LIBRARIES})
+
 target_include_directories(CudaRasterizer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/cuda_rasterizer)
 target_include_directories(CudaRasterizer PRIVATE third_party/glm ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+target_include_directories(CudaRasterizer PRIVATE ${TORCH_INCLUDE_DIRS})
