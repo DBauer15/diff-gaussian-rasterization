@@ -65,13 +65,13 @@ __global__ void checkFrustum(int P,
 	float3 p_view;
 
     bool valid = in_frustum(idx, orig_points, viewmatrix, projmatrix, false, p_view);
+    int32_t nextid = -1;
     if (valid) {
-        atomicAdd(num_present, 1);
+        nextid = atomicAdd(num_present, 1);
     }
-    __syncthreads();
 
     if (valid) {
-        present[*num_present] = idx;
+        present[nextid] = (int32_t)(idx);
     }
 }
 
