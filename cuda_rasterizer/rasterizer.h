@@ -26,7 +26,8 @@ namespace CudaRasterizer
 			float* means3D,
 			float* viewmatrix,
 			float* projmatrix,
-			bool* present);
+			int32_t* present,
+            int32_t* num_present);
 
 		static int forward(
 			std::function<char* (size_t)> geometryBuffer,
