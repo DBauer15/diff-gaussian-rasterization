@@ -450,7 +450,7 @@ renderCUDA(
 	float dL_dpixel[C];
 	if (inside)
 		for (int i = 0; i < C; i++)
-			dL_dpixel[i] = dL_dpixels[i * H * W + pix_id];
+			dL_dpixel[i] = dL_dpixels[pix_id * C + i];
 
 	float last_alpha = 0;
 	float last_color[C] = { 0 };
